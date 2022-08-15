@@ -56,20 +56,6 @@
 					</a>
 				</template>
 			</v-treeview>
-
-			<v-menu
-				v-model="showMenu"
-				:position-x="x"
-				:position-y="y"
-				absolute
-				offset-y
-			>
-				<v-list>
-					<v-list-tile v-for="menuItem in menuItems" :key="menuItem">
-						<v-list-tile-title>{{ menuItem }}</v-list-tile-title>
-					</v-list-tile>
-				</v-list>
-			</v-menu>
 		</v-card-text>
 
 		<!-- 필터없이 적용 (이걸로 해야할 듯하다. 이유는 tree item에 존재하는 데이터만 filter하므로 동적으로 item이 변경되어 적용하기 힘들듯) -->
