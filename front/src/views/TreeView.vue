@@ -41,7 +41,6 @@
 				activatable
 				rounded
 				hoverable
-				v-model="active"
 				:items="items"
 				:search="search"
 				:filter="filter"
@@ -57,57 +56,71 @@
 					</a>
 				</template>
 			</v-treeview>
+
+			<v-menu
+				v-model="showMenu"
+				:position-x="x"
+				:position-y="y"
+				absolute
+				offset-y
+			>
+				<v-list>
+					<v-list-tile v-for="menuItem in menuItems" :key="menuItem">
+						<v-list-tile-title>{{ menuItem }}</v-list-tile-title>
+					</v-list-tile>
+				</v-list>
+			</v-menu>
 		</v-card-text>
+
+		<!-- 필터없이 적용 (이걸로 해야할 듯하다. 이유는 tree item에 존재하는 데이터만 filter하므로 동적으로 item이 변경되어 적용하기 힘들듯) -->
+		<!-- <v-treeview
+			activatable
+			rounded
+			hoverable
+			v-model="active"
+			:items="items"
+			@update:open="openNode"
+			item-key="id"
+		>
+			<template slot="label" slot-scope="{ item, open }">
+				<a @click="selectNode(item)">
+					<v-icon>
+						{{ open ? 'mdi-folder-open' : 'mdi-folder' }}
+					</v-icon>
+					{{ item.name }}
+				</a>
+			</template>
+		</v-treeview> -->
 	</v-card>
 </template>
 
 <script>
 import treeitemInfo from '@/data/treeitemInfo'
+import { no } from 'vuetify/lib/locale'
 
 export default {
 	methods: {
 		addChild() {
-			if (this.active.length === 0) {
+			if (this.activeNode === undefined || this.activeNode === null) {
 				console.log('Please select item')
 				return
 			}
 
-			//console.log(this.active[0], this.active[0].id, this.active[0].name)
+			if (this.activeNode.children !== undefined) {
+				this.activeNode.children.push({ id: '100', name: 'test' })
+			} else {
+				this.$set(this.activeNode, 'children', [{ id: '1001', name: 'test1' }])
 
-			if (this.active[0].children !== undefined)
-				this.active[0].children.push({ id: '100', name: 'test' })
-			else {
-				// const newItem = [{ id: '1001', name: 'test1' }]
-				this.active[0].children = []
-				//this.$set(this.active[0], 'children', [{ id: '1001', name: 'test1' }])
-				this.active[0].children.push([{ id: '1001', name: 'test1' }])
+				console.log(this.activeNode.children)
 			}
-
-			console.log(this.active[0].children)
-
-			// if (this.active[0].children !== undefined)
-			// 	this.active[0].children.push({ id: '100', name: 'test' })
-			// else {
-			// 	this.active[0].add({ children: [{ id: '1001', name: 'test1' }] })
-			// }
-
-			// this.items[0].children.forEach(x => {
-			// 	console.log(x.id, x.name)
-			// })
-
-			// const childItem = this.items.find(x => {
-			// 	return x.id === this.active[0]
-			// })
-
-			// console.log(childItem.id, childItem.name)
 		},
 
 		// 로드 선택할 때
 		selectNode(node) {
+			this.activeNode = node
 			console.log(
 				'Method : selectNode',
 				'node.name :' + node.name,
-				'this.active[0] : ' + this.active[0],
 				'${JSON.stringify(node)} : ' + `${JSON.stringify(node)}`
 			)
 		},
@@ -140,11 +153,12 @@ export default {
 	},
 
 	data: () => ({
-		active: [],
+		activeNode: null,
 		items: treeitemInfo.trees,
 		search: null,
 		caseSensitive: false,
 		oldOpenNodeCnt: 0,
+		menuItems: ['create file', 'create directory'],
 	}),
 	computed: {
 		filter() {
