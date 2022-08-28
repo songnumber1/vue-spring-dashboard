@@ -5,7 +5,6 @@
 			rounded
 			hoverable
 			:items="getItems"
-			:search="search"
 			return-object
 			@update:open="openNode"
 		>
@@ -92,7 +91,6 @@ export default {
 	data: () => ({
 		activeNode: null,
 		items: treeitemInfo.trees,
-		search: null,
 		caseSensitive: false,
 		oldOpenNodeCnt: 0,
 		menuItems: ['create file', 'create directory'],

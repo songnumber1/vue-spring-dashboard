@@ -12,5 +12,6 @@ module.exports = defineConfig({
 				ws: false,
 			},
 		},
+		historyApiFallback: true,
 	},
 })

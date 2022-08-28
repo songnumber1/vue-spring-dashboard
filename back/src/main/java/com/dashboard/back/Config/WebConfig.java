@@ -1,4 +1,4 @@
-package com.dashboard.back.Config;
+package com.dashboard.back.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

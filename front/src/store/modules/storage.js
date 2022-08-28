@@ -1,4 +1,5 @@
 import axios from '@/http/axios'
+import url from '@/http/url'
 
 const storage = {
 	namespaced: true,
@@ -36,7 +37,7 @@ const storage = {
 	actions: {
 		openRoot(commit) {
 			return axios
-				.get('/Storage/root')
+				.get(url.StorageRootNode)
 				.then((res) => {
 					commit.commit('setreeItems', res.data.data)
 				})
@@ -48,7 +49,7 @@ const storage = {
 			if (path === null || path === undefined) return
 
 			return axios
-				.get('Storage/getFiles?path=' + path)
+				.get(url.StorageOpenNode + path)
 				.then((res) => {
 					var data = res.data.data
 					commit.commit('setOpenNode', {

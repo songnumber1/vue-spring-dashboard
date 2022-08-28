@@ -1,4 +1,4 @@
-package com.dashboard.back.Response;
+package com.dashboard.back.response;
 
 import java.nio.charset.Charset;
 import java.util.Map;

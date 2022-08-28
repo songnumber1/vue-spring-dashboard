@@ -1,4 +1,4 @@
-package com.dashboard.back.Response;
+package com.dashboard.back.response;
 
 public enum StatusEnum {
 

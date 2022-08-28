@@ -1,4 +1,4 @@
-package com.dashboard.back.dto;
+package com.dashboard.back.dto.storage;
 
 import java.util.List;
 
