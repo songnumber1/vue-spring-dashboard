@@ -1,5 +1,7 @@
 package com.dashboard.back.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +19,7 @@ public class StorageItemModel {
     private String parendId;
 
     // 이름
-    private String text;
+    private String name;
 
     // 디렉토리 / 파일
     private boolean isDirectory;
@@ -43,9 +45,6 @@ public class StorageItemModel {
     // 상대 경로
     private String absolutePath;
 
-    // 부모 경로
-    private String parent;
-
-    // 드라이브
-    private boolean isDrive;
+    // 자식 객체
+    private List<StorageItemModel> children;
 }

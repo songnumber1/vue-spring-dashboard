@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class StorageRootItemModel {
     private String id;
     
-    private String drive;
+    private String name;
 
     private String absolutePath;
 
@@ -24,5 +24,5 @@ public class StorageRootItemModel {
 
     private double freeSize;
 
-    private List<StorageItemModel> storageItemModels;
+    private List<StorageItemModel> children;
 }

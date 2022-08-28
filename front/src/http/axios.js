@@ -1,7 +1,7 @@
 import axios from 'axios'
 import store from '@/store/index'
 
-axios.defaults.baseURL = 'https://reqres.in/'
+axios.defaults.baseURL = 'http://localhost:8081/dashboard/'
 
 // Add a request interceptor
 axios.interceptors.request.use(
