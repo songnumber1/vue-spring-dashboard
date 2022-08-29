@@ -14,5 +14,5 @@ import lombok.NoArgsConstructor;
 public class StorageSelectItemModel {
     private List<StorageSelectHeaderModel> storageSelectHeaderModels;
 
-    private List<StorageItemModel> storageSelectItemModels;
+    private List<StorageSelectContentItemModel> StorageSelectContentItemModels;
 }

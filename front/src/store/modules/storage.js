@@ -1,16 +1,26 @@
 import axios from '@/http/axios'
 import url from '@/http/url'
+import eventBus from '@/data/EventBus.js'
+import eventBusVariable from '@/data/EventBusVariable.js'
 
 const storage = {
 	namespaced: true,
 	state: {
 		treeItems: [],
+		tableItems: [],
+		tableHeaders: [],
 	},
 	getters: {
 		getTreeItems: (state) => state.treeItems,
+
+		getTableItems(state) {
+			return state.tableItems
+		},
+
+		getTableHeader: (state) => state.tableHeaders,
 	},
 	mutations: {
-		setreeItems(state, items) {
+		setTreeItems(state, items) {
 			state.treeItems = items
 		},
 
@@ -33,13 +43,18 @@ const storage = {
 
 			result.node.children = result.data
 		},
+
+		setTreeNode(state, { header, item }) {
+			state.tableHeaders = header
+			state.tableItems = item
+		},
 	},
 	actions: {
 		openRoot(commit) {
 			return axios
 				.get(url.StorageRootNode)
 				.then((res) => {
-					commit.commit('setreeItems', res.data.data)
+					commit.commit('setTreeItems', res.data.data)
 				})
 				.catch((err) => {
 					console.log(err)
@@ -57,6 +72,29 @@ const storage = {
 						node: node,
 						data: data,
 					})
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+		},
+
+		selectNode(commit, { node, path }) {
+			console.log(node, path)
+			if (
+				node === null ||
+				node === undefined ||
+				path === null ||
+				path === undefined
+			)
+				return
+
+			return axios
+				.get(url.StorageSelectNode + path)
+				.then((res) => {
+					commit.state.tableItems = res.data.data.storageSelectContentItemModels
+					commit.state.tableHeaders = res.data.data.storageSelectHeaderModels
+
+					eventBus.$emit(eventBusVariable.eventBusTest, 'eventBusTest')
 				})
 				.catch((err) => {
 					console.log(err)

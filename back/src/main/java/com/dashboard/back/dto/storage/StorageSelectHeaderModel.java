@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Builder.Default;
 
 @Data
 @Builder
@@ -20,5 +21,9 @@ public class StorageSelectHeaderModel {
     private String value;
 
     // 정렬
-    private boolean isSort;
+    @Default
+    private boolean sortable = true;
+
+    // 글자 정렬
+    private String align;
 }

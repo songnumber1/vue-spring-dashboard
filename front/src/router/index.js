@@ -4,7 +4,7 @@ import Dashboard from '@/views/Dashboard'
 import GridSystem from '@/views/GridSystem'
 import AxiosVuex from '@/views/AxiosVuex'
 import BreakPoint from '@/views/BreakPoint'
-import TreeView from '@/views/TreeView'
+import Storage from '@/views/Storage'
 import DefaultLayout from '@/layout/default/index'
 
 Vue.use(VueRouter)
@@ -35,9 +35,9 @@ const routes = [
 				component: BreakPoint,
 			},
 			{
-				path: '/tree-view',
-				name: 'TreeView',
-				component: TreeView,
+				path: '/storage',
+				name: 'Storage',
+				component: Storage,
 			},
 		],
 	},

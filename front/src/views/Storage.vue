@@ -12,10 +12,27 @@
 <script>
 import treeviewVue from './tree/treeview.vue'
 import tableVue from './tree/table.vue'
+import eventBus from '@/data/EventBus.js'
+import eventBusVariable from '@/data/EventBusVariable.js'
+
 export default {
+	data() {
+		return {
+			eventBusTest: '',
+		}
+	},
 	components: {
 		treeviewVue,
 		tableVue,
+	},
+	created() {
+		eventBus.$on(eventBusVariable.eventBusTest, (data) => {
+			this.eventBusTest = data
+			console.log(this.eventBusTest)
+		})
+	},
+	beforeDestroy() {
+		eventBus.$off(eventBusVariable.eventBusTest)
 	},
 }
 </script>

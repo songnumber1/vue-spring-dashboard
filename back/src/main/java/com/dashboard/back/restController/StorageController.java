@@ -1,10 +1,12 @@
 package com.dashboard.back.restController;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,15 +14,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dashboard.back.common.storage.Common;
 import com.dashboard.back.dto.storage.StorageItemModel;
 import com.dashboard.back.dto.storage.StorageRootItemModel;
-import com.dashboard.back.dto.storage.StorageSelectHeaderModel;
+import com.dashboard.back.dto.storage.StorageSelectContentItemModel;
 import com.dashboard.back.dto.storage.StorageSelectItemModel;
 import com.dashboard.back.response.ResponseEntityData;
 
 @RestController
 @RequestMapping("/Storage")
 public class StorageController {
+
+    @Autowired
+    private Common storageCommon;
+
     @GetMapping("/rootNode")
     public ResponseEntity<?> rootNode() {
         String name, id, absolutePath;
@@ -96,18 +103,43 @@ public class StorageController {
     
     @GetMapping("selectNode")
     public ResponseEntity<?> selectNode(@RequestParam(required = true) String path) {
-        List<StorageSelectHeaderModel> storageSelectHeaderModels = new ArrayList<StorageSelectHeaderModel>();
+        StorageSelectItemModel storageSelectItemModels = StorageSelectItemModel.builder().build();
 
-        storageSelectHeaderModels.add(StorageSelectHeaderModel.builder().id(UUID.randomUUID().toString()).value("name").text("name").isSort(true).build());
-        storageSelectHeaderModels.add(StorageSelectHeaderModel.builder().id(UUID.randomUUID().toString()).value("type").text("type").isSort(true).build());
-        storageSelectHeaderModels.add(StorageSelectHeaderModel.builder().id(UUID.randomUUID().toString()).value("lastModified").text("lastModified").isSort(true).build());
-        storageSelectHeaderModels.add(StorageSelectHeaderModel.builder().id(UUID.randomUUID().toString()).value("size").text("size").isSort(true).build());
-        
-        List<StorageItemModel> storageItemModels = getSubFile(path, false);
+        storageSelectItemModels.setStorageSelectHeaderModels(storageCommon.getStorageSelectHeaderModel());
 
-        StorageSelectItemModel storageSelectItemModel = StorageSelectItemModel.builder().storageSelectHeaderModels(storageSelectHeaderModels).storageSelectItemModels(storageItemModels).build();
+        List<StorageSelectContentItemModel> storageSelectContentItemModels = new ArrayList<StorageSelectContentItemModel>();
 
-        return ResponseEntityData.CreateReponse(HttpStatus.OK.value(), "OK", storageSelectItemModel, null);
+        File dir = new File(path);
+
+        if (!dir.exists()) {
+            return ResponseEntityData.CreateReponse(HttpStatus.OK.value(), "OK", storageSelectItemModels, null);
+        }
+
+        File files[] = dir.listFiles();
+
+        for (int i = 0; i < files.length; i++) {
+            long lastModified = files[i].lastModified();
+            String pattern = "yyyy-MM-dd HH:mm";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            Date lastModifiedDate = new Date(lastModified);
+
+            String size = storageCommon.getFileSize(String.valueOf(files[i].length()));
+             
+            StorageSelectContentItemModel storageSelectContentItemModel = StorageSelectContentItemModel.builder()
+                    .id(files[i].getAbsolutePath())
+                    .name(files[i].getName())
+                    .dir(files[i].isDirectory() == true ? "DIR" : "FILE")
+                    .lastModified(simpleDateFormat.format(lastModifiedDate))
+                    .path(files[i].getPath())
+                    .size(size)
+                    .build();
+
+            storageSelectContentItemModels.add(storageSelectContentItemModel);
+        }
+
+        storageSelectItemModels.setStorageSelectContentItemModels(storageSelectContentItemModels);
+
+        return ResponseEntityData.CreateReponse(HttpStatus.OK.value(), "OK", storageSelectItemModels, null);
     }
     
     private List<StorageItemModel> getSubFile(String path, boolean isOnlyDir) {        

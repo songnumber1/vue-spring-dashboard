@@ -2,7 +2,6 @@
 	<div>
 		<v-treeview
 			activatable
-			rounded
 			hoverable
 			:items="getItems"
 			return-object
@@ -42,12 +41,17 @@ export default {
 
 		// 로드 선택할 때
 		selectNode(node) {
-			this.activeNode = node
-			console.log(
-				'Method : selectNode',
-				'node.name :' + node.name,
-				'${JSON.stringify(node)} : ' + `${JSON.stringify(node)}`
-			)
+			// this.activeNode = node
+			// console.log(
+			// 	'Method : selectNode',
+			// 	'node.name :' + node.name,
+			// 	'${JSON.stringify(node)} : ' + `${JSON.stringify(node)}`
+			// )
+
+			this.$store.dispatch('storage/selectNode', {
+				node: node,
+				path: node.absolutePath.replaceAll('\\', '//'),
+			})
 		},
 
 		openNode(node) {
@@ -72,6 +76,7 @@ export default {
 					node: node[index],
 					path: path,
 				}
+
 				this.$store.dispatch('storage/openNode', para)
 
 				// console.log(
