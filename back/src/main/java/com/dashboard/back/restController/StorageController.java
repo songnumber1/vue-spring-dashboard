@@ -19,7 +19,7 @@ import com.dashboard.back.dto.storage.StorageItemModel;
 import com.dashboard.back.dto.storage.StorageRootItemModel;
 import com.dashboard.back.dto.storage.StorageSelectContentItemModel;
 import com.dashboard.back.dto.storage.StorageSelectItemModel;
-import com.dashboard.back.response.ResponseEntityData;
+import com.dashboard.back.Response.ResponseEntityData;
 
 @RestController
 @RequestMapping("/Storage")
