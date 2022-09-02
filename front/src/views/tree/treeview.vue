@@ -48,10 +48,7 @@ export default {
 			// 	'${JSON.stringify(node)} : ' + `${JSON.stringify(node)}`
 			// )
 
-			this.$store.dispatch('storage/selectNode', {
-				node: node,
-				path: node.absolutePath.replaceAll('\\', '//'),
-			})
+			this.$store.dispatch('storage/selectNodeTable', node.absolutePath)
 		},
 
 		openNode(node) {

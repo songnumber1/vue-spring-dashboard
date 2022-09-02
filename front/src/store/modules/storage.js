@@ -9,6 +9,8 @@ const storage = {
 		treeItems: [],
 		tableItems: [],
 		tableHeaders: [],
+		tableSelectPath: '',
+		rootItems: [],
 	},
 	getters: {
 		getTreeItems: (state) => state.treeItems,
@@ -54,6 +56,19 @@ const storage = {
 			return axios
 				.get(url.StorageRootNode)
 				.then((res) => {
+					commit.state.rootItems = []
+
+					res.data.data.forEach((x) => {
+						commit.state.rootItems.push({
+							id: x.id,
+							name: x.name,
+							absolutePath: x.absolutePath,
+							totalSize: x.totalSize,
+							useSize: x.useSize,
+							useSizePercent: x.useSizePercent,
+						})
+					})
+
 					commit.commit('setTreeItems', res.data.data)
 				})
 				.catch((err) => {
@@ -78,23 +93,20 @@ const storage = {
 				})
 		},
 
-		selectNode(commit, { node, path }) {
-			console.log(node, path)
-			if (
-				node === null ||
-				node === undefined ||
-				path === null ||
-				path === undefined
-			)
-				return
+		selectNodeTable(commit, path) {
+			if (path === null || path === undefined) return
 
 			return axios
-				.get(url.StorageSelectNode + path)
+				.get(url.StorageSelectNodeTable + path.replaceAll('\\', '//'))
 				.then((res) => {
 					commit.state.tableItems = res.data.data.storageSelectContentItemModels
 					commit.state.tableHeaders = res.data.data.storageSelectHeaderModels
+					commit.state.tableSelectPath = path
 
-					eventBus.$emit(eventBusVariable.eventBusTest, 'eventBusTest')
+					eventBus.$emit(
+						eventBusVariable.eventBusStorageSelectNodeTable,
+						'eventBusTest'
+					)
 				})
 				.catch((err) => {
 					console.log(err)

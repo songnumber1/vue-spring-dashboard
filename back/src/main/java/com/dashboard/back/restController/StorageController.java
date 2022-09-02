@@ -31,7 +31,8 @@ public class StorageController {
     @GetMapping("/rootNode")
     public ResponseEntity<?> rootNode() {
         String name, id, absolutePath;
-        double totalSize, freeSize, useSize;
+        double totalSize, useSize;
+        int useSizePercent;
 
         File[] roots = File.listRoots();
 
@@ -41,9 +42,9 @@ public class StorageController {
             id = root.getAbsolutePath();
             name = root.getAbsolutePath();
             absolutePath = root.getAbsolutePath();
-            totalSize = root.getTotalSpace() / Math.pow(1024, 3);
-            useSize = root.getUsableSpace() / Math.pow(1024, 3);
-            freeSize = totalSize - useSize;
+            totalSize = root.getTotalSpace();
+            useSize = root.getUsableSpace();
+            useSizePercent = (int)((useSize * 100) / totalSize);
 
             List<StorageItemModel> storageItemModels = new ArrayList<StorageItemModel>();
 
@@ -65,9 +66,11 @@ public class StorageController {
                     .id(id)
                     .name(name)
                     .absolutePath(absolutePath)
-                    .totalSize(totalSize)
-                    .useSize(useSize)
-                    .freeSize(freeSize)
+                    .totalSize(storageCommon.byteCalculation(String.valueOf(
+                            totalSize)))
+                    .useSize(storageCommon.byteCalculation(String.valueOf(
+                            useSize)))
+                    .useSizePercent(100 - useSizePercent)
                     .children(storageItemModels).build();
 
             storageRootItemModels.add(storageRootItemModel);

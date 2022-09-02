@@ -1,5 +1,5 @@
 const EventBusVariable = {
-	eventBusTest: 'eventBusTest',
+	eventBusStorageSelectNodeTable: 'eventBusStorageSelectNodeTable',
 }
 
 export default EventBusVariable

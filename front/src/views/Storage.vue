@@ -26,13 +26,13 @@ export default {
 		tableVue,
 	},
 	created() {
-		eventBus.$on(eventBusVariable.eventBusTest, (data) => {
+		eventBus.$on(eventBusVariable.eventBusStorageSelectNodeTable, (data) => {
 			this.eventBusTest = data
 			console.log(this.eventBusTest)
 		})
 	},
 	beforeDestroy() {
-		eventBus.$off(eventBusVariable.eventBusTest)
+		eventBus.$off(eventBusVariable.eventBusStorageSelectNodeTable)
 	},
 }
 </script>

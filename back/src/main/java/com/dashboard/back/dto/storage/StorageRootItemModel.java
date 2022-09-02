@@ -18,11 +18,11 @@ public class StorageRootItemModel {
 
     private String absolutePath;
 
-    private double totalSize;
+    private String totalSize;
 
-    private double useSize;
+    private String useSize;
 
-    private double freeSize;
+    private int useSizePercent;
 
     private List<StorageItemModel> children;
 }
