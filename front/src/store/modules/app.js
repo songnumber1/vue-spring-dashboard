@@ -9,6 +9,7 @@ const appStore = {
 			{ title: 'AxoisVuex', icon: 'mdi-image', to: '/axios-vuex' },
 			{ title: 'BreakPoint', icon: 'mdi-help-box', to: '/break-point' },
 			{ title: 'GridSystem', icon: 'mdi-help-box', to: '/grid-system' },
+			{ title: 'ImageViewer', icon: 'mdi-help-box', to: '/image-viewer' },
 			{ title: 'Storage', icon: 'mdi-help-box', to: '/storage' },
 		],
 	},

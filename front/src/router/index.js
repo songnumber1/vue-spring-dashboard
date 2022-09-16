@@ -5,6 +5,7 @@ import GridSystem from '@/views/GridSystem'
 import AxiosVuex from '@/views/AxiosVuex'
 import BreakPoint from '@/views/BreakPoint'
 import Storage from '@/views/Storage'
+import ImageViewer from '@/views/ImageViewer'
 import DefaultLayout from '@/layout/default/index'
 
 Vue.use(VueRouter)
@@ -38,6 +39,11 @@ const routes = [
 				path: '/storage',
 				name: 'Storage',
 				component: Storage,
+			},
+			{
+				path: '/image-viewer',
+				name: 'ImageViewer',
+				component: ImageViewer,
 			},
 		],
 	},
