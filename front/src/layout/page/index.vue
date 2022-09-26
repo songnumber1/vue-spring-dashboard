@@ -16,4 +16,3 @@ export default {
 	name: 'PageLayout',
 }
 </script>
-<style lang=""></style>
