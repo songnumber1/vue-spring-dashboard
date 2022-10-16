@@ -1,11 +1,13 @@
 package com.dashboard.back.restController;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -81,6 +83,8 @@ public class StorageController {
 
     @GetMapping("openNode")
     public ResponseEntity<?> openNode(@RequestParam(required = true) String path) {
+        path = new String(Base64.decodeBase64(path.getBytes()));
+        
         File dir = new File(path);
         File files[] = dir.listFiles();
 
@@ -104,8 +108,10 @@ public class StorageController {
         return ResponseEntityData.CreateReponse(HttpStatus.OK.value(), "OK", storageItemModels, null);
     }
     
-    @GetMapping("selectNode")
-    public ResponseEntity<?> selectNode(@RequestParam(required = true) String path) {
+    @GetMapping("selectNodeTable")
+    public ResponseEntity<?> selectNodeTable(@RequestParam(required = true) String path) throws UnsupportedEncodingException {
+        path = new String(Base64.decodeBase64(path.getBytes()));
+        
         StorageSelectItemModel storageSelectItemModels = StorageSelectItemModel.builder().build();
 
         storageSelectItemModels.setStorageSelectHeaderModels(storageCommon.getStorageSelectHeaderModel());
@@ -115,7 +121,7 @@ public class StorageController {
         File dir = new File(path);
 
         if (!dir.exists()) {
-            return ResponseEntityData.CreateReponse(HttpStatus.OK.value(), "OK", storageSelectItemModels, null);
+            return ResponseEntityData.CreateReponse(HttpStatus.OK.value(), "Directory not exist.", storageSelectItemModels, null);
         }
 
         File files[] = dir.listFiles();

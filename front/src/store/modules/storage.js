@@ -11,6 +11,7 @@ const storage = {
 		tableHeaders: [],
 		tableSelectPath: '',
 		rootItems: [],
+		historyItems: [],
 	},
 	getters: {
 		getTreeItems: (state) => state.treeItems,
@@ -79,7 +80,7 @@ const storage = {
 			if (path === null || path === undefined) return
 
 			return axios
-				.get(url.StorageOpenNode + path)
+				.get(url.StorageOpenNode + btoa(path.replaceAll('\\', '//')))
 				.then((res) => {
 					var data = res.data.data
 					commit.commit('setOpenNode', {
@@ -93,24 +94,36 @@ const storage = {
 				})
 		},
 
-		selectNodeTable(commit, path) {
+		selectNodeTable(commit, { path, historyAdd }) {
 			if (path === null || path === undefined) return
 
-			return axios
-				.get(url.StorageSelectNodeTable + path.replaceAll('\\', '//'))
-				.then((res) => {
-					commit.state.tableItems = res.data.data.storageSelectContentItemModels
-					commit.state.tableHeaders = res.data.data.storageSelectHeaderModels
-					commit.state.tableSelectPath = path
+			if (historyAdd) {
+				commit.state.historyItems.push(path)
+				console.log(commit.state.historyItems)
+			}
 
-					eventBus.$emit(
-						eventBusVariable.eventBusStorageSelectNodeTable,
-						'eventBusTest'
-					)
-				})
-				.catch((err) => {
-					console.log(err)
-				})
+			return (
+				axios
+					.get(url.StorageSelectNodeTable + btoa(path.replaceAll('\\', '//')))
+					// .get(
+					// 	url.StorageSelectNodeTable +
+					// 		btoa(unescape(encodeURIComponent(path.replaceAll('\\', '//'))))
+					// )
+					.then((res) => {
+						commit.state.tableItems =
+							res.data.data.storageSelectContentItemModels
+						commit.state.tableHeaders = res.data.data.storageSelectHeaderModels
+						commit.state.tableSelectPath = path
+
+						eventBus.$emit(
+							eventBusVariable.eventBusStorageSelectNodeTable,
+							'eventBusTest'
+						)
+					})
+					.catch((err) => {
+						console.log(err)
+					})
+			)
 		},
 	},
 }

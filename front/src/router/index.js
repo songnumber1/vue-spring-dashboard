@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Dashboard from '@/views/Dashboard'
-import GridSystem from '@/views/GridSystem'
-import AxiosVuex from '@/views/AxiosVuex'
-import BreakPoint from '@/views/BreakPoint'
-import Storage from '@/views/Storage'
-import ImageViewer from '@/views/ImageViewer'
+import Dashboard from '@/views/dashboard'
+import GridSystem from '@/views/gridSystem'
+import AxiosVuex from '@/views/axiosVuex'
+import BreakPoint from '@/views/breakPoint'
+import Storage from '@/views/storage/storage'
+import ImageViewer from '@/views/imageViewer'
 import DefaultLayout from '@/layout/default/index'
 
 Vue.use(VueRouter)

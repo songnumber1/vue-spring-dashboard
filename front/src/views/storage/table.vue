@@ -14,6 +14,39 @@
 					></v-text-field>
 				</v-container>
 			</v-card-title>
+
+			<v-card-subtitle>
+				<div class="text-right">
+					<v-btn class="mx-2" fab dark small color="primary" @click="rootClick">
+						<v-icon dark> mdi-home </v-icon>
+					</v-btn>
+
+					<v-btn class="mx-2" fab dark small color="purple">
+						<v-icon dark> mdi-arrow-left </v-icon>
+					</v-btn>
+
+					<v-btn class="mx-2" fab dark small color="purple">
+						<v-icon dark> mdi-arrow-right </v-icon>
+					</v-btn>
+
+					<v-btn class="mx-2" fab dark small color="pink">
+						<v-icon dark> mdi-folder </v-icon>
+					</v-btn>
+
+					<v-btn class="mx-2" fab dark small color="indigo">
+						<v-icon dark> mdi-file </v-icon>
+					</v-btn>
+
+					<!-- <v-btn class="mx-2" fab dark small color="cyan">
+						<v-icon dark> mdi-pencil </v-icon>
+					</v-btn> -->
+
+					<!-- <v-btn class="mx-2" fab dark small color="teal">
+						<v-icon dark> mdi-delete </v-icon>
+					</v-btn> -->
+				</div>
+			</v-card-subtitle>
+
 			<v-data-table
 				class="pa-3"
 				:headers="getHeader"
@@ -31,7 +64,8 @@
 	</div>
 </template>
 <script>
-import root from '@/views/tree/root.vue'
+import root from './root.vue'
+
 export default {
 	components: { root },
 	data() {
@@ -57,7 +91,14 @@ export default {
 
 	methods: {
 		showRowInfo(event, { item }) {
-			this.$store.dispatch('storage/selectNodeTable', item.path)
+			this.$store.dispatch('storage/selectNodeTable', {
+				path: item.path,
+				historyAdd: true,
+			})
+		},
+
+		rootClick() {
+			this.$store.state.storage.tableSelectPath = ''
 		},
 	},
 }

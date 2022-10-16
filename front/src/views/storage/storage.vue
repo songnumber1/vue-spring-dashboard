@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import treeviewVue from './tree/treeview.vue'
-import tableVue from './tree/table.vue'
+import treeviewVue from './treeview.vue'
+import tableVue from './table.vue'
 import eventBus from '@/data/EventBus.js'
 import eventBusVariable from '@/data/EventBusVariable.js'
 

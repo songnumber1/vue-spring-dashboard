@@ -1,11 +1,11 @@
 <template>
 	<v-container fluid>
-		<v-row>
-			<v-col v-for="item in getRootItem" :key="item.id">
+		<v-row v-for="item in getRootItem" :key="item.id">
+			<v-col>
 				<v-card class="pa-3">
 					<v-row class="mb-1">
 						<v-card-actions>
-							<v-btn text color="teal accent-4" @click="selectDriver(item)">
+							<v-btn text @click="selectDriver(item)">
 								드라이브 {{ item.name.replaceAll('\\', '') }}
 							</v-btn>
 						</v-card-actions>
@@ -14,7 +14,7 @@
 					<v-progress-linear
 						:value="item.useSizePercent"
 						height="25"
-						color="amber"
+						color="blue"
 					>
 						<strong>{{ Math.ceil(item.useSizePercent) }}%</strong>
 					</v-progress-linear>
@@ -45,7 +45,10 @@ export default {
 
 	methods: {
 		selectDriver(event) {
-			this.$store.dispatch('storage/selectNodeTable', event.absolutePath)
+			this.$store.dispatch('storage/selectNodeTable', {
+				path: event.absolutePath,
+				historyAdd: false,
+			})
 		},
 	},
 }
