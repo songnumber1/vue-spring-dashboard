@@ -6,3 +6,46 @@ server:
       charset: UTF-8
       enabled: true
       force: true
+
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/jwtauth?serverTimezone=Asia/Seoul
+    username: root
+    password: Apassword!1
+  output:
+    ansi:
+      enable: NAVER
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      use-new-id-generator-mappings: false
+    show-sql: false
+    properties:
+      hibernate.format_sql: true
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+
+application:
+  login:
+    suffix-url: "/auth/login"
+    full-url: ${server.servlet.context-path}${application.login.suffix-url}
+    proc-url: "/loginProc"
+  logout:
+    url: "/auth/logout"
+    proc-url: "/logoutProc"
+
+jwt:
+  secret-key: retunbliss-key
+  access-token-expire-length: 3600000
+  refresh-token-expire-length: 604800000
+  header-name: "returnbliss-bearer"
