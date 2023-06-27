@@ -25,16 +25,24 @@ const auth = {
 			// 	},
 			// }
 
+			let form = new FormData()
+			form.append('username', username)
+			form.append('password', password)
+
 			return axios
-				.post(url.AuthLogin, {
-					headers: {
-						'Content-type': 'application/x-www-form-urlencoded',
-					},
-					username: username,
-					password: password,
-				})
+				.post(
+					url.AuthLogin,
+					form
+					// {
+					// 	headers: {
+					// 		'Content-type': 'application/x-www-form-urlencoded',
+					// 	},
+					// 	username: username,
+					// 	password: password,
+					// }
+				)
 				.then((res) => {
-					console.log(res)
+					console.log('1234', res.headers['Set-Cookie'])
 				})
 				.catch((err) => {
 					console.log(err)

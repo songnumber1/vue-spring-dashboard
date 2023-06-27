@@ -7,6 +7,7 @@ import BreakPoint from '@/views/breakPoint'
 import Storage from '@/views/storage/storage'
 import ImageViewer from '@/views/imageViewer'
 import DefaultLayout from '@/layout/default/index'
+import Login from '@/views/login'
 
 Vue.use(VueRouter)
 
@@ -44,6 +45,11 @@ const routes = [
 				path: '/image-viewer',
 				name: 'ImageViewer',
 				component: ImageViewer,
+			},
+			{
+				path: '/auth/login',
+				name: 'Login',
+				component: Login,
 			},
 		],
 	},
