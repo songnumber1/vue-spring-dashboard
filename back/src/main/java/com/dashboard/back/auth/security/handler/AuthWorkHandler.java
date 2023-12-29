@@ -19,6 +19,8 @@ import com.dashboard.back.auth.repository.UserRepository;
 import com.dashboard.back.auth.service.UserService;
 import com.dashboard.back.auth.token.JwtTokenProvider;
 
+import lombok.var;
+
 @Component
 public class AuthWorkHandler {
 	@Autowired
